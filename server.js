@@ -34,7 +34,7 @@ app.use(cookieParser());
 app.use(mongoSanitize());
 
 //security headers for dns headers etc
-app.use(helmet);
+app.use(helmet());
 
 //prevent xss attacks injecting html etc
 app.use(xss());

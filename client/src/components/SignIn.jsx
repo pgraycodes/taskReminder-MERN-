@@ -7,7 +7,10 @@ import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import AssignmentIcon from '@material-ui/icons/Assignment';
+import useFormValidation from "../hooks/useFormValidation";
+import validateAuth from "../hooks/validateAuth";
+import { Redirect } from 'react-router-dom';
+
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -31,15 +34,31 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignIn() {
+
   const classes = useStyles();
+  const INITIAL_STATE = {
+    email: "",
+    password: ""
+  };
+  const {
+    handleChange,
+    handleSubmitSignIn,
+    values,
+    loginState
+  } = useFormValidation(INITIAL_STATE, validateAuth);
+  const [toDashboard, setToDashboard] = React.useState(false);
+  const [toSignUp, setToSignUp] = React.useState(false);
 
   return (
+  loginState? <Redirect to = {{ pathname: "/Dashboard" }} />
+  :
     <Container component="main" maxWidth="xs">
       <CssBaseline />
 
       <div className={classes.paper}>
         <Avatar className={classes.avatar}></Avatar>
-        <form>
+
+        <form onSubmit={handleSubmitSignIn}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -48,6 +67,8 @@ export default function SignIn() {
             id="email"
             label="Email Address"
             name="email"
+            value ={values.email}
+            onChange={handleChange}
             autoComplete="email"
             autoFocus
           />
@@ -57,6 +78,8 @@ export default function SignIn() {
             required
             fullWidth
             name="password"
+            value={values.password}
+            onChange={handleChange}
             label="Password"
             type="password"
             id="password"
@@ -64,6 +87,7 @@ export default function SignIn() {
           />
           <Button
             type="submit"
+
             fullWidth
             variant="contained"
             color="secondary"
@@ -84,7 +108,7 @@ export default function SignIn() {
             </Grid>
 
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="signup"  variant="body2">
                 {'Create an account'}
               </Link>
             </Grid>

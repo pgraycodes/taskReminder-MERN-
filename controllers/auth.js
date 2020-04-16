@@ -50,6 +50,7 @@ exports.login = asyncHandler(async (req, res, next) => {
   }
 
   sendTokenResponse(user, 200, res);
+  
 
 });
 
